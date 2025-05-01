@@ -1,0 +1,43 @@
+from collections import deque
+
+graph = {
+    
+    "A":["B","C"],
+    "B": ["A","D","E"],
+    "C":["A","F"],
+    "D":["B"],
+    "E":["B","F"],
+    "F":["E","C"]
+    }
+
+def dfs(graph,node,visited):
+    if node not in visited:
+        print(node,end="")
+        visited.add(node)
+        for neighbor in graph[node]:
+            dfs(graph,neighbor,visited)
+     
+
+
+def bfs(graph,start):
+    visited = set()
+    queue = deque([start])
+    visited.add(start)
+    while queue:
+        node = queue.popleft()
+        print(node,end='')
+        visited.add(node)
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+            
+    
+
+
+
+print("dfs:-")
+dfs(graph,"A",set())
+
+print("\n bfs:-")
+bfs(graph,"A")

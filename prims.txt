@@ -1,0 +1,41 @@
+INF = 9999999
+
+# Number of vertices
+V = 5
+
+# Graph as adjacency matrix (1-indexed)
+graph = [
+    [],  # 0th index unused
+    [0, 0, 2, 0, 6, 0],
+    [0, 2, 0, 3, 8, 5],
+    [0, 0, 3, 0, 0, 7],
+    [0, 6, 8, 0, 0, 9],
+    [0, 0, 5, 7, 9, 0]
+]
+
+def prim_mst(graph, V):
+    selected = [False] * (V + 1)  # Node selection tracking
+    no_edges = 0  # Count of edges in MST
+    selected[1] = True  # Start from node 1
+
+    print("Edge : Weight")
+
+    while no_edges < V - 1:
+        minimum = INF
+        x = 0
+        y = 0
+
+        for i in range(1, V + 1):
+            if selected[i]:
+                for j in range(1, V + 1):
+                    if not selected[j] and graph[i][j]:
+                        if minimum > graph[i][j]:
+                            minimum = graph[i][j]
+                            x = i
+                            y = j
+
+        print(f"{x} - {y} : {graph[x][y]}")
+        selected[y] = True
+        no_edges += 1
+
+prim_mst(graph, V)

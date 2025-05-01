@@ -1,0 +1,37 @@
+import heapq  # built-in, no internet required
+
+def dijkstra(graph, start):
+    visited = set()
+    distance = {node: float('inf') for node in graph}
+    distance[start] = 0
+
+    pq = [(0, start)]  # priority queue (distance, node)
+
+    while pq:
+        dist, current = heapq.heappop(pq)
+
+        if current in visited:
+            continue
+        visited.add(current)
+
+        for neighbor, cost in graph[current]:
+            if neighbor not in visited:
+                new_dist = dist + cost
+                if new_dist < distance[neighbor]:
+                    distance[neighbor] = new_dist
+                    heapq.heappush(pq, (new_dist, neighbor))
+
+    print("Shortest distances from node", start)
+    for node in sorted(graph.keys()):
+        print(f"To {node}: {distance[node]}")
+
+# Sample graph (undirected)
+graph = {
+    1: [(2, 2), (3, 4)],
+    2: [(1, 2), (3, 1), (4, 7)],
+    3: [(1, 4), (2, 1), (4, 3)],
+    4: [(2, 7), (3, 3)]
+}
+
+# Start from node 1
+dijkstra(graph, 1)
