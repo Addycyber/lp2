@@ -1,0 +1,28 @@
+import re
+
+def chatbot_response(user_input):
+    user_input = user_input.lower()
+
+    responses = {
+        r"(hello|hi|hey)": "Hello! Welcome to IFB Service. How may I help?",
+        r"(service|repair|technician)": "Sure! Please share your address and contact number.",
+        r"(install|installation)": "We can arrange an installation. Please provide details.",
+        r"(complaint|issue|problem)": "Sorry for the trouble. We will register your complaint.",
+        r"(charges|cost|fee)": "Basic service charges are ₹300 + parts cost.",
+        r"(bye|exit)": "Goodbye! Thank you for contacting IFB! 🛠"
+    }
+
+    for pattern, reply in responses.items():
+        if re.search(pattern, user_input):
+            return reply
+
+    return "Sorry, please ask about service, repair, installation, etc."
+
+print("Welcome to IFB Washing Machine Service Chatbot! (Type 'bye' to exit)")
+
+while True:
+    msg = input("You: ")
+    if msg.lower() in ["bye", "exit"]:
+        print("Chatbot: Goodbye! 🛠")
+        break
+    print("Chatbot:", chatbot_response(msg))
