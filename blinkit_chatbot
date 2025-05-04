@@ -9,7 +9,7 @@ def chatbot_response(user_input):
         r"(track|status)": "Please provide your Order ID to track it.",
         r"(cancel)": "You can cancel your order from the app easily.",
         r"(offers|discounts)": "We have 20% off on first orders!",
-        r"(bye|exit)": "Goodbye! Thank you for choosing Blink-IT! 🚚"
+        r"(bye|exit)": "Goodbye! Thank you for choosing Blink-IT! "
     }
 
     for pattern, reply in responses.items():
