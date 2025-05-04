@@ -23,6 +23,6 @@ print("Welcome to Blink-IT Chatbot! (Type 'bye' to exit)")
 while True:
     msg = input("You: ")
     if msg.lower() in ["bye", "exit"]:
-        print("Chatbot: Goodbye! 🚚")
+        print("Chatbot: Goodbye! ")
         break
     print("Chatbot:", chatbot_response(msg))
