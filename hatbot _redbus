@@ -1,0 +1,28 @@
+import re
+
+def chatbot_response(user_input):
+    user_input = user_input.lower()
+
+    responses = {
+        r"(hello|hi|hey)": "Hello! Welcome to RedBus. How can I help you?",
+        r"(book|ticket)": "Sure! Where would you like to travel?",
+        r"(cancel|cancellation)": "You can cancel tickets in the 'My Bookings' section.",
+        r"(refund)": "Refunds are done in 5-7 working days.",
+        r"(offers|discounts)": "Use code 'BUS10' to get 10% off!",
+        r"(bye|exit)": "Goodbye! Have a safe journey! 🚌"
+    }
+
+    for pattern, reply in responses.items():
+        if re.search(pattern, user_input):
+            return reply
+
+    return "Sorry, I didn't understand. Can you ask about RedBus services?"
+
+print("Welcome to RedBus Chatbot! (Type 'bye' to exit)")
+
+while True:
+    msg = input("You: ")
+    if msg.lower() in ["bye", "exit"]:
+        print("Chatbot: Goodbye!")
+        break
+    print("Chatbot:", chatbot_response(msg))
