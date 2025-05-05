@@ -1,0 +1,78 @@
+import heapq
+import copy
+
+
+PLAYER = 'X'
+OPPONENT = 'O'
+EMPTY = ' '
+
+
+WIN_COMBINATIONS = [
+    [0,1,2], [3,4,5], [6,7,8],  # rows
+    [0,3,6], [1,4,7], [2,5,8],  # cols
+    [0,4,8], [2,4,6]            # diagonals
+]
+
+def is_winner(board, player):
+    return any(all(board[i] == player for i in combo) for combo in WIN_COMBINATIONS)
+
+def is_draw(board):
+    return EMPTY not in board and not is_winner(board, PLAYER) and not is_winner(board, OPPONENT)
+
+def get_possible_moves(board, player):
+    moves = []
+    for i in range(9):
+        if board[i] == EMPTY:
+            new_board = board[:]
+            new_board[i] = player
+            moves.append((i, new_board))
+    return moves
+
+def heuristic(board):
+    # Simple heuristic: count number of lines where X can win
+    score = 0
+    for combo in WIN_COMBINATIONS:
+        values = [board[i] for i in combo]
+        if values.count(PLAYER) > 0 and values.count(OPPONENT) == 0:
+            score += 1
+    return 3 - score  # Lower is better
+        
+
+def a_star_tic_tac_toe(start_board):
+    frontier = []
+    heapq.heappush(frontier, (0, start_board, [], 0))  # (f_score, board, path, g)
+    visited = set()
+
+    while frontier:
+        f, board, path, g = heapq.heappop(frontier)
+        board_tuple = tuple(board)
+
+        if board_tuple in visited:
+            continue
+        visited.add(board_tuple)
+
+        if is_winner(board, PLAYER):
+            return path + [board]
+
+        if is_draw(board):
+            continue
+
+        for move, new_board in get_possible_moves(board, PLAYER if (g % 2 == 0) else OPPONENT):
+            if tuple(new_board) not in visited:
+                h = heuristic(new_board)
+                heapq.heappush(frontier, (g + 1 + h, new_board, path + [board], g + 1))
+
+    return None  # No winning path found
+
+# Example usage:
+initial_board = [EMPTY] * 9
+path = a_star_tic_tac_toe(initial_board)
+
+if path:
+    for i, state in enumerate(path):
+        print(f"Step {i}:")
+        for j in range(0, 9, 3):
+            print(state[j:j+3])
+        print()
+else:
+    print("No winning path found.")
